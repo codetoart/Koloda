@@ -424,4 +424,18 @@ public class DraggableCardView: UIView, UIGestureRecognizerDelegate {
             overlayView?.pop_add(overlayAlphaAnimation, forKey: "swipeOverlayAnimation")
         }
     }
+    
+    public override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let panRecognizer = gestureRecognizer as? UIPanGestureRecognizer else {
+            return super.gestureRecognizerShouldBegin(gestureRecognizer)
+        }
+        
+        // Ensure it's a horizontal drag
+        let velocity = panRecognizer.velocity(in: self)
+        if abs(velocity.y) > abs(velocity.x) || velocity.x > 0 {
+            return false
+        }
+        
+        return true
+    }
 }
